@@ -1,5 +1,7 @@
 package com.codepath.articlesearch
 
+import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +56,21 @@ class BestSellerBooksRecyclerViewAdapter(
         holder.mBookAuthor.text = book.author
         holder.mBookDescription.text = book.description
         holder.mBookRanking.text = book.rank.toString()
+
+        val prefs = holder.itemView.context.getSharedPreferences("com.codepath.articlesearch", Context.MODE_PRIVATE)
+        val setSpecialFont = prefs.getBoolean(holder.itemView.context.getString(R.string.font_pref), false)
+        if(setSpecialFont) {
+            holder.mBookTitle.typeface = Typeface.DEFAULT_BOLD
+            holder.mBookAuthor.typeface = Typeface.DEFAULT_BOLD
+            holder.mBookDescription.typeface = Typeface.DEFAULT_BOLD
+            holder.mBookRanking.typeface = Typeface.DEFAULT_BOLD
+        }
+        else {
+            holder.mBookTitle.typeface = Typeface.DEFAULT
+            holder.mBookAuthor.typeface = Typeface.DEFAULT
+            holder.mBookDescription.typeface = Typeface.DEFAULT
+            holder.mBookRanking.typeface = Typeface.DEFAULT
+        }
 
         Glide.with(holder.mView)
             .load(book.bookImageUrl)

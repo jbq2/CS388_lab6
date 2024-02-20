@@ -1,5 +1,7 @@
 package com.codepath.articlesearch
 
+import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,9 +21,21 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         mediaImageView = findViewById(R.id.mediaImage)
-        titleTextView = findViewById(R.id.mediaTitle)
+        titleTextView = findViewById(R.id.storyTitle)
         bylineTextView = findViewById(R.id.mediaByline)
-        abstractTextView = findViewById(R.id.mediaAbstract)
+        abstractTextView = findViewById(R.id.storyAbstract)
+        val prefs = getSharedPreferences("com.codepath.articlesearch", Context.MODE_PRIVATE)
+        val setSpecialFont = prefs.getBoolean(getString(R.string.font_pref), false)
+        if(setSpecialFont) {
+            titleTextView.typeface = Typeface.DEFAULT_BOLD
+            bylineTextView.typeface = Typeface.DEFAULT_BOLD
+            abstractTextView.typeface = Typeface.DEFAULT_BOLD
+        }
+        else {
+            titleTextView.typeface = Typeface.DEFAULT
+            bylineTextView.typeface = Typeface.DEFAULT
+            abstractTextView.typeface = Typeface.DEFAULT
+        }
 
         val article = intent.getSerializableExtra(ARTICLE_EXTRA) as Article
 

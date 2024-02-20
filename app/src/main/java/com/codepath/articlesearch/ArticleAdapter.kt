@@ -2,6 +2,7 @@ package com.codepath.articlesearch
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +33,8 @@ class ArticleAdapter(private val context: Context, private val articles: List<Ar
         View.OnClickListener {
 
         private val mediaImageView = itemView.findViewById<ImageView>(R.id.mediaImage)
-        private val titleTextView = itemView.findViewById<TextView>(R.id.mediaTitle)
-        private val abstractTextView = itemView.findViewById<TextView>(R.id.mediaAbstract)
+        private val titleTextView = itemView.findViewById<TextView>(R.id.storyTitle)
+        private val abstractTextView = itemView.findViewById<TextView>(R.id.storyAbstract)
 
         init {
             itemView.setOnClickListener(this)
@@ -42,6 +43,17 @@ class ArticleAdapter(private val context: Context, private val articles: List<Ar
         fun bind(article: Article) {
             titleTextView.text = article.headline?.main
             abstractTextView.text = article.abstract
+
+            val prefs = itemView.context.getSharedPreferences("com.codepath.articlesearch", Context.MODE_PRIVATE)
+            val setSpecialFont = prefs.getBoolean(itemView.context.getString(R.string.font_pref), false)
+            if(setSpecialFont) {
+                titleTextView.typeface = Typeface.DEFAULT_BOLD
+                abstractTextView.typeface = Typeface.DEFAULT_BOLD
+            }
+            else {
+                titleTextView.typeface = Typeface.DEFAULT
+                abstractTextView.typeface = Typeface.DEFAULT
+            }
 
             Glide.with(context)
                 .load(article.mediaImageUrl)
